@@ -1,5 +1,6 @@
 import 'package:connect4_flutter/utilities/board.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 
 class GameBody extends StatelessWidget {
@@ -8,28 +9,79 @@ class GameBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final board = Provider.of<Board>(context, listen: false);
     board.createBoard();
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.blue,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.8),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 0), // changes position of shadow
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.8),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 0), // changes position of shadow
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: ColumnValues(context),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: ColumnValues(context),
+            ),
+          ),
         ),
-      ),
+        Column(
+          children: [
+            board.aiWin || board.playerWin
+                ? board.aiWin
+                    ? const Text("AI Wins")
+                    : const Text("Player Wins")
+                : Container(),
+            board.gameOver
+                ? const Text(
+                    "Game Over",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  )
+                : board.turn == board.playerTurn
+                    ? const Text(
+                        "Player's Turn",
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : const Text(
+                        "AI's Turn",
+                        style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+          ],
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        TextButton(
+          onPressed: () {
+            print("reset");
+            Phoenix.rebirth(context);
+          },
+          child: Text("Reset"),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            overlayColor: MaterialStateProperty.all(Colors.white70),
+          ),
+        )
+      ],
     );
   }
 
