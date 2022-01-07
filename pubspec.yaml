@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   scidart: ^0.0.2-dev.6
   provider: ^6.0.2
+  flutter_phoenix: ^1.0.0
 
 
 dev_dependencies:
