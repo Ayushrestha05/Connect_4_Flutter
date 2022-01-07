@@ -22,6 +22,8 @@ class Board with ChangeNotifier {
 
   /// Defining a flag that denotes if a game has ended
   bool gameOver = false;
+  bool playerWin = false;
+  bool aiWin = false;
 
   late Array2d board;
   late int turn;
@@ -29,7 +31,10 @@ class Board with ChangeNotifier {
   /// Initializing the board
   Board() {
     board = createBoard();
-    turn = playerTurn;
+    turn = Random().nextInt(2);
+    if (turn == aiTurn) {
+      aiMakeMove();
+    }
   }
 
   ///Flips the board in X-Axis and prints the board
@@ -51,7 +56,9 @@ class Board with ChangeNotifier {
 
       if (winState(board, playerCoin)) {
         print("Player Wins!");
+        playerWin = true;
         gameOver = true;
+        notifyListeners();
       }
       turn = aiTurn;
       aiMakeMove();
@@ -66,7 +73,9 @@ class Board with ChangeNotifier {
     makeMove(board, row, col.toInt(), aiCoin);
     if (winState(board, aiCoin)) {
       print("AI Wins!");
+      aiWin = true;
       gameOver = true;
+      notifyListeners();
     }
     turn = playerTurn;
   }
