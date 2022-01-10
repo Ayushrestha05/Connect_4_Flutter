@@ -17,15 +17,9 @@ class _GameScreenState extends State<GameScreen> {
       appBar: AppBar(
         title: const Text('Connect 4 AI Demonstration'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            ChangeNotifierProvider<Board>(
-              create: (context) => Board(),
-              child: const GameBody(),
-            ),
-          ],
-        ),
+      body: ChangeNotifierProvider<Board>(
+        create: (context) => Board(),
+        child: const GameBody(),
       ),
     );
   }
