@@ -53,14 +53,14 @@ class GameBody extends StatelessWidget {
                     ? const Text(
                         "Player's Turn",
                         style: TextStyle(
-                            color: Colors.red,
+                            color: Colors.redAccent,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       )
                     : const Text(
                         "AI's Turn",
                         style: TextStyle(
-                            color: Colors.yellow,
+                            color: Colors.yellowAccent,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -125,15 +125,8 @@ class GameBody extends StatelessWidget {
             print("Selected $i ");
             board.playerMakeMove(index, i);
           },
-          child: Container(
-            margin: EdgeInsets.all(10),
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(35),
-            ),
-          ),
+          child: coinContainer(
+              outerColor: Colors.redAccent, innerColor: Colors.red),
         ));
       } else if (board.printBoard(board.board)[index][i].toInt() == 2) {
         rowList.add(GestureDetector(
@@ -141,18 +134,41 @@ class GameBody extends StatelessWidget {
             print("Selected $i ");
             board.playerMakeMove(index, i);
           },
-          child: Container(
-            margin: EdgeInsets.all(10),
-            height: 30,
-            width: 30,
-            decoration: BoxDecoration(
-              color: Colors.yellow,
-              borderRadius: BorderRadius.circular(35),
-            ),
-          ),
+          child: coinContainer(
+              outerColor: Colors.yellowAccent, innerColor: Colors.yellow),
         ));
       }
     }
     return rowList;
+  }
+
+  /// Creates a Container for a coin that takes two values of Color [innerColor] and [outerColor]
+  Container coinContainer(
+      {required Color outerColor, required Color innerColor}) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      height: 30,
+      width: 30,
+      decoration: BoxDecoration(
+        color: outerColor,
+        borderRadius: BorderRadius.circular(35),
+      ),
+      child: Center(
+        child: Container(
+          height: 20,
+          width: 20,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              color: innerColor,
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black87,
+                  spreadRadius: -0.5,
+                  blurRadius: 1,
+                )
+              ]),
+        ),
+      ),
+    );
   }
 }
