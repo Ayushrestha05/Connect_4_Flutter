@@ -22,7 +22,7 @@ class _GameScreenState extends State<GameScreen> {
           children: [
             ChangeNotifierProvider<Board>(
               create: (context) => Board(),
-              child: GameBody(),
+              child: const GameBody(),
             ),
           ],
         ),
