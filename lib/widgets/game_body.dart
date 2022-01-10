@@ -10,11 +10,12 @@ class GameBody extends StatelessWidget {
     final board = Provider.of<Board>(context, listen: false);
     board.createBoard();
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: const Color(0xFF006DD8),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -53,14 +54,14 @@ class GameBody extends StatelessWidget {
                     ? const Text(
                         "Player's Turn",
                         style: TextStyle(
-                            color: Colors.redAccent,
+                            color: Colors.red,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       )
                     : const Text(
                         "AI's Turn",
                         style: TextStyle(
-                            color: Colors.yellowAccent,
+                            color: Colors.yellow,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -126,7 +127,8 @@ class GameBody extends StatelessWidget {
             board.playerMakeMove(index, i);
           },
           child: coinContainer(
-              outerColor: Colors.redAccent, innerColor: Colors.red),
+              outerColor: const Color(0xFFF00000),
+              innerColor: const Color(0xFFDD0000)),
         ));
       } else if (board.printBoard(board.board)[index][i].toInt() == 2) {
         rowList.add(GestureDetector(
@@ -135,7 +137,9 @@ class GameBody extends StatelessWidget {
             board.playerMakeMove(index, i);
           },
           child: coinContainer(
-              outerColor: Colors.yellowAccent, innerColor: Colors.yellow),
+            outerColor: const Color(0xFFEEEE00),
+            innerColor: const Color(0xFFD0D000),
+          ),
         ));
       }
     }
