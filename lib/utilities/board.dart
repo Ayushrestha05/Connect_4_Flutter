@@ -37,7 +37,7 @@ class Board with ChangeNotifier {
     }
   }
 
-  ///Flips the board in X-Axis and prints the board
+  ///Flips the board in X-Axis and returns the flipped board
   Array2d printBoard(board) {
     Array2d printBoard = Array2d.empty();
     for (int i = 5; i >= 0; i--) {
@@ -68,7 +68,9 @@ class Board with ChangeNotifier {
   }
 
   void aiMakeMove() {
-    double col = minimax(board, 5, true)[0].toDouble();
+    double col =
+        minimax(board, 5, double.negativeInfinity, double.infinity, true)[0]
+            .toDouble();
     int row = getNextOpenRow(board, col.toInt());
     makeMove(board, row, col.toInt(), aiCoin);
     if (winState(board, aiCoin)) {
@@ -112,6 +114,7 @@ class Board with ChangeNotifier {
     return -1;
   }
 
+  ///Checking the board if it fulfills the win condition
   bool winState(Array2d board, int piece) {
     double currentPiece = piece.toDouble();
     // Check horizontal locations for win
@@ -269,7 +272,8 @@ class Board with ChangeNotifier {
     return validLocations;
   }
 
-  List minimax(Array2d board, int depth, bool maximizingPlayer) {
+  List minimax(Array2d board, int depth, double alpha, double beta,
+      bool maximizingPlayer) {
     List<int> validLocations = getValidLocations(board);
     bool isTerminal = isTerminalNode(board);
     if (depth == 0 || isTerminal) {
@@ -294,10 +298,15 @@ class Board with ChangeNotifier {
         int row = getNextOpenRow(board, col);
         Array2d newBoard = board.copy();
         makeMove(newBoard, row, col, aiCoin);
-        double newScore = minimax(newBoard, depth - 1, false)[1].toDouble();
+        double newScore =
+            minimax(newBoard, depth - 1, alpha, beta, false)[1].toDouble();
         if (newScore > value) {
           value = newScore;
           column = col;
+        }
+        alpha = max(alpha, value);
+        if (alpha >= beta) {
+          break;
         }
       }
       return [column, value];
@@ -309,10 +318,15 @@ class Board with ChangeNotifier {
         int row = getNextOpenRow(board, col);
         Array2d newBoard = board.copy();
         makeMove(newBoard, row, col, playerCoin);
-        double newScore = minimax(newBoard, depth - 1, true)[1].toDouble();
+        double newScore =
+            minimax(newBoard, depth - 1, alpha, beta, true)[1].toDouble();
         if (newScore < value) {
           value = newScore;
           column = col;
+        }
+        beta = min(beta, value);
+        if (alpha >= beta) {
+          break;
         }
       }
       return [column, value];
