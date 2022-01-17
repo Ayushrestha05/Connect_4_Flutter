@@ -169,6 +169,7 @@ class Board with ChangeNotifier {
     return false;
   }
 
+  ///Evaluates Individual Score for a Window
   int evaluateWindow(List<double> window, piece) {
     int opponentPiece = playerCoin;
     if (piece == playerCoin) {
@@ -204,6 +205,7 @@ class Board with ChangeNotifier {
     return score;
   }
 
+  ///Evaluate the Board Score
   int scorePosition(Array2d board, int piece) {
     int score = 0;
 
@@ -261,6 +263,7 @@ class Board with ChangeNotifier {
     return score;
   }
 
+  ///Returns a List of all Possible Move Locations in the Current Board State
   List<int> getValidLocations(board) {
     List<int> validLocations = [];
     for (int col = 0; col < colCount; col++) {
@@ -272,6 +275,7 @@ class Board with ChangeNotifier {
     return validLocations;
   }
 
+  ///Making a decision of best move by using the Mini-Max Algorithm with Alpha Beta Pruning
   List minimax(Array2d board, int depth, double alpha, double beta,
       bool maximizingPlayer) {
     List<int> validLocations = getValidLocations(board);
@@ -333,6 +337,7 @@ class Board with ChangeNotifier {
     }
   }
 
+  ///Checking whether the game has ended with a win, loss, or draw
   bool isTerminalNode(board) {
     return winState(board, playerCoin) ||
         winState(board, aiCoin) ||
