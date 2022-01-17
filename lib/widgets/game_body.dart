@@ -123,7 +123,6 @@ class GameBody extends StatelessWidget {
       } else if (board.printBoard(board.board)[index][i].toInt() == 1) {
         rowList.add(GestureDetector(
           onTap: () {
-            print("Selected $i ");
             board.playerMakeMove(index, i);
           },
           child: coinContainer(
@@ -133,7 +132,6 @@ class GameBody extends StatelessWidget {
       } else if (board.printBoard(board.board)[index][i].toInt() == 2) {
         rowList.add(GestureDetector(
           onTap: () {
-            print("Selected $i ");
             board.playerMakeMove(index, i);
           },
           child: coinContainer(
